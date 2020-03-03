@@ -20,7 +20,8 @@ from paapi5_python_sdk.get_browse_nodes_request import GetBrowseNodesRequest
 
 
 import time, json, pickle, pprint
-from urllib.parse import quote as urllib_quote
+# from urllib.parse import quote as urllib_quote
+import six.moves.urllib as urllib
 from .entities import AmazonProduct, AmazonBrowseNode
 from .constant import *
 from .exception import AmazonException
@@ -31,7 +32,7 @@ def _quote_query(query):
     """Turn a dictionary into a query string in a URL, with keys
     in alphabetical order."""
     return "&".join("%s=%s" % (
-        k, urllib_quote(
+        k, urllib.parse.quote(
             str(query[k]).encode('utf-8'), safe='~'))
             for k in sorted(query))
 
