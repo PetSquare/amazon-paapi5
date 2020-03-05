@@ -201,7 +201,7 @@ class AmazonAPI:
         return
             Dict with 
                 *data* 
-                    contains the AmazonProduct list
+                    contains the AmazonProduct list and total number of results. {'count': int, 'items':[AmazonProduct]}
                 *http_info*
                     contains the http header information if requested. By default None
         """
@@ -292,7 +292,9 @@ class AmazonAPI:
                     response = response_with_http_info[0]
                     resp_http = response_with_http_info[2]
                     if response.search_result is not None:
-                        resp = [ AmazonProduct(item) for item in response.search_result.items]
+                        resp = {'items': None, 'count': response.search_result.total_result_count}
+                        items = [ AmazonProduct(item) for item in response.search_result.items]
+                        resp['items'] = items
                         if self.CacheWriter:
                             self.CacheWriter(cache_url, pickle.dumps(resp), pickle.dumps(resp_http))
                         return {'data': resp, 'http_info': resp_http}
@@ -310,7 +312,9 @@ class AmazonAPI:
                     response = self.default_api.search_items(search_items_request)
                 """ Parse response """
                 if response.search_result is not None:
-                    resp = [ AmazonProduct(item) for item in response.search_result.items]
+                    resp = {'items': None, 'count': response.search_result.total_result_count}
+                    items = [ AmazonProduct(item) for item in response.search_result.items]
+                    resp['items'] = items
                     if self.CacheWriter:
                         self.CacheWriter(cache_url, pickle.dumps(resp), pickle.dumps(resp_http))
                     return {'data': resp, 'http_info': resp_http}
@@ -503,7 +507,10 @@ class AmazonAPI:
 
             """ Parse response """
             if response.search_result is not None:
-                resp = [ AmazonProduct(item) for item in response.search_result.items]
+                resp = {'items': None, 'count': response.search_result.total_result_count}
+                items = [ AmazonProduct(item) for item in response.search_result.items]
+                resp['items'] = items
+                # resp = [ AmazonProduct(item) for item in response.search_result.items]
                 if self.CacheWriter:
                     self.CacheWriter(cache_url, pickle.dumps(resp), pickle.dumps(resp_http))
                 return {'data': resp, 'http_info': resp_http}

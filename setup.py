@@ -5,14 +5,12 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='amazon-paapi5',
-    version='1.1.1',
-    author='Alessandro Fiori',
-    author_email='alessandro.fiori@gmail.com',
+    version='1.1.2',
+    author='Celine Bursztein'    ,
     description='Amazon Product Advertising API 5.0 wrapper for Python',
     long_description=long_description,
     long_description_content_type='text/markdown',
     license='GPL-3.0',
-    url='https://github.com/alefiori82/amazon-paapi5',
     packages=setuptools.find_packages(),
     install_requires=['amightygirl.paapi5-python-sdk'],
     classifiers=[
